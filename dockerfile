@@ -3,9 +3,9 @@ FROM node:20-alpine as build
 
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 COPY . .
-RUN npm run build --configuration production
+RUN npm run build -- --configuration production --project=conceptualMapFrontend
 
 # Etapa 2: Servir app con NGINX
 FROM nginx:alpine
