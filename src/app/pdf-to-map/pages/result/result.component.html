@@ -1,0 +1,76 @@
+<header class="bg-gray-300">
+  <nav aria-label="Global" class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+    <div class="flex lg:flex-1">
+      <a href="#" class="-m-1.5 p-1.5">
+        <span class="sr-only text-gray-900">Regresar</span>
+        <img src="assets/icons/back.svg" alt="" class="h-8 w-auto" />
+      </a>
+      <a href="#" class="text-sm/6 font-semibold text-gray-900 self-center">Regresar</a>
+    </div>
+    
+    <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+      <a href="#" class="text-sm/6 font-semibold text-gray-900">Cerrar sesión <span aria-hidden="true"></span></a>
+    </div>
+  </nav>
+ 
+</header>
+
+<div class="mt-6 flex flex-col h-screen">
+  <h1 class="text-2xl font-bold mx-18">Mapa generado</h1>
+  <span class="mx-18">Controles: Usa el mouse para acerca o alejar, con click izquierdo puedes moverte al rededor del mapa.</span>
+  <ngx-graph
+    
+    
+    [links]="links()"
+    [nodes]="nodes()"
+    layout="dagre"
+  >
+    <ng-template #defsTemplate>
+      <svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4" orient="auto">
+        <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
+      </svg:marker>
+    </ng-template>
+
+    <ng-template #clusterTemplate let-cluster>
+      <svg:g class="node cluster">
+        <svg:rect
+          rx="5"
+          ry="5"
+          [attr.width]="cluster.dimension.width"
+          [attr.height]="cluster.dimension.height"
+          [attr.fill]="cluster.data.color"
+        />
+      </svg:g>
+    </ng-template>
+
+    <ng-template #nodeTemplate let-node>
+      <svg:g class="node">
+        <svg:rect
+          [attr.width]="node.dimension.width"
+          [attr.height]="node.dimension.height"
+          [attr.fill]="node.data.color"
+        />
+        <svg:text alignment-baseline="central" [attr.x]="10" [attr.y]="node.dimension.height / 2">
+          {{node.label}}
+        </svg:text>
+      </svg:g>
+    </ng-template>
+
+    <ng-template #linkTemplate let-link>
+      <svg:g class="edge">
+        <svg:path class="line" stroke-width="2" marker-end="url(#arrow)"></svg:path>
+        <svg:text class="edge-label" text-anchor="middle">
+          <textPath
+            class="text-path"
+            [attr.href]="'#' + link.id"
+            [style.dominant-baseline]="link.dominantBaseline"
+            startOffset="50%"
+          >
+            {{link.label}}
+          </textPath>
+        </svg:text>
+      </svg:g>
+    </ng-template>
+  </ngx-graph>
+</div>
+

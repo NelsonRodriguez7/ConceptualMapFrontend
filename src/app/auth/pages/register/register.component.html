@@ -1,0 +1,92 @@
+<header class="bg-gray-300">
+  <nav aria-label="Global" class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+    <div class="flex lg:flex-1">
+      <a class="-m-1.5 p-1.5">
+        <span class="sr-only text-gray-900">Regresar</span>
+        <img src="assets/icons/back.svg" alt="" class="h-8 w-auto" />
+      </a>
+      <a (click)="goToLogin()" class="cursor-pointer text-sm/6 font-semibold text-gray-900 self-center">Regresar</a>
+    </div>
+    
+  </nav>
+</header>
+
+<div class="flex min-h-full flex-col justify-center px-6 py-8 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <h2 class="mt-0 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Registrate</h2>
+  </div>
+
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-sm">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <div>
+        <label for="user" class="block text-sm/6 font-medium text-gray-900">Usuario</label>
+        <div class="mt-2">
+          <input id="user" type="text" formControlName="userName" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6" />
+        </div>
+      </div>
+
+      <div class="text-red-500 text-sm mt-1" *ngIf="registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched">
+        <div *ngIf="registerForm.get('userName')?.errors?.['required']">El nombre de usuario es requerido.</div>
+        <div *ngIf="registerForm.get('userName')?.errors?.['maxlength']">Debe tener menos de 15 caracteres.</div>
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm/6 font-medium text-gray-900">Correo</label>
+        <div class="mt-2">
+          <input id="email" type="text" formControlName="email" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6" />
+        </div>
+      </div>
+
+      <div class="text-red-500 text-sm mt-1" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+        <div *ngIf="registerForm.get('email')?.errors?.['email']">Correo invalido.</div>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between">
+          <label for="password" class="block text-sm/6 font-medium text-gray-900">Contraseña</label>
+        </div>
+        <div class="mt-2">
+          <input id="password" type="password" name="password" formControlName="password" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6" />
+        </div>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between">
+          <label for="confirmPassword" class="block text-sm/6 font-medium text-gray-900">Confirmar contraseña</label>
+        </div>
+        <div class="mt-2">
+          <input id="confirmPassword" type="password" name="confirmPassword" formControlName="confirmPassword" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6" />
+        </div>
+         <div *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched" class="text-red-500">
+            Las contraseñas no coinciden.
+         </div>
+      </div>
+
+      <div>
+        <label for="phone" class="block text-sm/6 font-medium text-gray-900">Celular</label>
+        <div class="mt-2">
+          <input id="phone" type="text" formControlName="phone" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6" />
+        </div>
+      </div>
+
+      <div class="text-red-500 text-sm mt-1" *ngIf="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched">
+        <div *ngIf="registerForm.get('phone')?.errors?.['pattern']">Debe tener 8 números.</div>
+      </div>
+
+      <div *ngIf="errorMsg()" class="text-red-500 text-sm text-center">
+        {{ errorMsg() }}
+      </div>
+
+      <div>
+        <button 
+            type="submit" 
+            [disabled]="!registerForm.valid || isLoading()"
+            class="cursor-pointer flex w-full justify-center rounded-md bg-gray-900 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-gray-300 hover:text-gray-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-300 disabled:opacity-25">
+            {{ isLoading() ? 'Registrando...' : 'Registrar' }}
+        </button>
+      </div>
+    </form>
+
+    
+  </div>
+</div>

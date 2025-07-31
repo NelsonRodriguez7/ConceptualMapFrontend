@@ -1,0 +1,1 @@
+export const Ok_STATUS = 'API0000';
